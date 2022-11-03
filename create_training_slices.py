@@ -89,8 +89,10 @@ def validate_image(image, threshold=0.4) -> bool:
 
 def extract_patches_to_dir(
     slide_path, mask_path, level1, level2, stride, input_size, 
-    zoom1_patch_outdir, zoom1_label_outdir, zoom1_mask_outdir, 
-    zoom2_patch_outdir, zoom2_label_outdir, zoom2_mask_outdir) -> None:
+    zoom1_patch_normal_outdir, zoom1_patch_tumor_outdir, 
+    zoom1_mask_normal_outdir, zoom1_mask_tumor_outdir,
+    zoom2_patch_normal_outdir, zoom2_patch_tumor_outdir,
+    zoom2_mask_normal_outdir, zoom2_mask_tumor_outdir) -> None:
     """Extract patches from im to dir
     1. Assume we will extract patches from the entire image at 2 zoom levels
     2. 
@@ -108,7 +110,6 @@ def extract_patches_to_dir(
     r, c = slide.level_dimensions[level1]
 
     i, count = 0, 1
-    level1_labels, level2_labels = [], []
     while i * stride + input_size < r:
         j = 0
         while j * stride + input_size < c:
@@ -120,21 +121,22 @@ def extract_patches_to_dir(
             mask_level1, mask_level2 = patch_mask['level1_mask'], patch_mask['level2_mask']
             
             if validate_image(patch_level1) and validate_image(patch_level2):
-                cv2.imwrite(f"{zoom1_patch_outdir}/{slide_name}_{count}.png", patch_level1)
-                cv2.imwrite(f"{zoom2_patch_outdir}/{slide_name}_{count}.png", patch_level2)
-                cv2.imwrite(f"{zoom1_mask_outdir}/{slide_name}_mask_{count}.png", mask_level1)
-                cv2.imwrite(f"{zoom2_mask_outdir}/{slide_name}_mask_{count}.png", mask_level2)
-                level1_labels.append(utils.extract_label(patch_level1, mask_level1))
-                level2_labels.append(utils.extract_label(patch_level2, mask_level2))
+                label = utils.extract_label(patch_level1, mask_level1)
+                if label == 1:
+                    cv2.imwrite(f"{zoom1_patch_tumor_outdir}/{slide_name}_{count}.png", patch_level1)
+                    cv2.imwrite(f"{zoom1_mask_tumor_outdir}/{slide_name}_{count}.png", mask_level1)
+                
+                    cv2.imwrite(f"{zoom2_patch_tumor_outdir}/{slide_name}_{count}.png", patch_level2)
+                    cv2.imwrite(f"{zoom2_mask_tumor_outdir}/{slide_name}_{count}.png", mask_level2)
+                else:
+                    cv2.imwrite(f"{zoom1_patch_normal_outdir}/{slide_name}_{count}.png", patch_level1)
+                    cv2.imwrite(f"{zoom1_mask_normal_outdir}/{slide_name}_{count}.png", mask_level1)
+                    
+                    cv2.imwrite(f"{zoom2_patch_normal_outdir}/{slide_name}_{count}.png", patch_level2)
+                    cv2.imwrite(f"{zoom2_mask_normal_outdir}/{slide_name}_{count}.png", mask_level2)
                 count += 1
             j += 1
         i += 1
-        
-    with open(f"{zoom1_label_outdir}/zoom1labels.npy", 'wb') as f:
-        np.save(f, np.array(level1_labels))
-    
-    with open(f"{zoom2_label_outdir}/zoom2labels.npy", 'wb') as f:
-        np.save(f, np.array(level2_labels))
         
     print("finished!")
     
@@ -151,23 +153,27 @@ def make_dirs(dirs, rerun=False):
 
 if __name__ == "__main__":
     dirs = [
-        utils.zoom1_patches,
-        utils.zoom1_labels,
-        utils.zoom1_masks,
-        utils.zoom2_patches,
-        utils.zoom2_labels,
-        utils.zoom2_masks,
+        utils.zoom1_tumor_patches,
+        utils.zoom1_normal_patches,
+        utils.zoom1_tumor_masks,
+        utils.zoom1_normal_masks,
+        utils.zoom2_tumor_patches,
+        utils.zoom2_normal_patches,
+        utils.zoom2_tumor_masks,
+        utils.zoom2_normal_masks,
     ]
     
     # set rerun=True to reset directories
     make_dirs(dirs, rerun=True)
 
     extract_patches_to_dir(
-        utils.train_input_im, utils.train_input_mask, utils.level1, utils.level2, utils.STRIDE, utils.INPUT_SIZE, 
-        utils.zoom1_patches, utils.zoom1_labels, utils.zoom1_masks, 
-        utils.zoom2_patches, utils.zoom2_labels, utils.zoom2_masks)
-
-    # validate whether labels match
-    zoom1_labels = np.load(f"{utils.zoom1_labels}/zoom1labels.npy")
-    zoom2_labels = np.load(f"{utils.zoom2_labels}/zoom2labels.npy")
-    print(sum(zoom1_labels == zoom2_labels) == len(zoom2_labels))
+        utils.train_input_im, utils.train_input_mask, 
+        utils.level1, utils.level2, utils.STRIDE, utils.INPUT_SIZE,
+        zoom1_patch_normal_outdir=utils.zoom1_normal_patches,
+        zoom1_patch_tumor_outdir=utils.zoom1_tumor_patches,
+        zoom1_mask_normal_outdir=utils.zoom1_normal_masks,
+        zoom1_mask_tumor_outdir=utils.zoom1_tumor_masks,
+        zoom2_patch_normal_outdir=utils.zoom2_normal_patches,
+        zoom2_patch_tumor_outdir=utils.zoom2_tumor_patches,
+        zoom2_mask_normal_outdir=utils.zoom2_normal_masks,
+        zoom2_mask_tumor_outdir=utils.zoom2_tumor_masks)

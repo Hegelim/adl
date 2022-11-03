@@ -19,14 +19,18 @@ level1 = 4
 level2 = 5
 
 # define training output paths
-zoom1_patches = "./training/zoom1patches"
-zoom1_labels = "./training/zoom1labels"
-zoom1_masks = "./training/zoom1masks"
+zoom1_tumor_patches = "./training/zoom1/patches/tumor"
+zoom1_normal_patches = "./training/zoom1/patches/normal"
+zoom1_tumor_masks = "./training/zoom1/masks/tumor"
+zoom1_normal_masks = "./training/zoom1/masks/normal"
 
-zoom2_patches = "./training/zoom2patches"
-zoom2_labels = "./training/zoom2labels"
-zoom2_masks = "./training/zoom2masks"
+zoom2_tumor_patches = "./training/zoom2/patches/tumor"
+zoom2_normal_patches = "./training/zoom2/patches/normal"
+zoom2_tumor_masks = "./training/zoom2/masks/tumor"
+zoom2_normal_masks = "./training/zoom2/masks/normal"
 
+# seed for ImageDataGenerator
+seed = 100
 
 def read_slide(slide, x, y, level, width, height, as_float=False):
     """Read a region from the slide, return a numpy RGB array
