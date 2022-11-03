@@ -13,26 +13,6 @@ import os
 import cv2
 from shutil import rmtree
 
-# define input paths
-train_input_im = "tumor_091.tif"
-train_input_mask = "tumor_091_mask.tif"
-
-# define zoom levels
-# assume level1 < level2
-# which means image at level 1 has 
-# more details than level 2
-level1 = 4
-level2 = 5
-
-# define training output paths
-zoom1_patches = "./training/zoom1patches"
-zoom1_labels = "./training/zoom1labels"
-zoom1_masks = "./training/zoom1masks"
-
-zoom2_patches = "./training/zoom2patches"
-zoom2_labels = "./training/zoom2labels"
-zoom2_masks = "./training/zoom2masks"
-
 
 def extract_patch_from_center(
     slide, mask,
@@ -171,23 +151,23 @@ def make_dirs(dirs, rerun=False):
 
 if __name__ == "__main__":
     dirs = [
-        "./training/zoom1patches",
-        "./training/zoom1labels",
-        "./training/zoom1masks",
-        "./training/zoom2patches",
-        "./training/zoom2labels",
-        "./training/zoom2masks"
+        utils.zoom1_patches,
+        utils.zoom1_labels,
+        utils.zoom1_masks,
+        utils.zoom2_patches,
+        utils.zoom2_labels,
+        utils.zoom2_masks,
     ]
     
     # set rerun=True to reset directories
-    make_dirs(dirs, rerun=False)
+    make_dirs(dirs, rerun=True)
 
     extract_patches_to_dir(
-        train_input_im, train_input_mask, level1, level2, utils.STRIDE, utils.INPUT_SIZE, 
-        zoom1_patches, zoom1_labels, zoom1_masks, 
-        zoom2_patches, zoom2_labels, zoom2_masks)
+        utils.train_input_im, utils.train_input_mask, utils.level1, utils.level2, utils.STRIDE, utils.INPUT_SIZE, 
+        utils.zoom1_patches, utils.zoom1_labels, utils.zoom1_masks, 
+        utils.zoom2_patches, utils.zoom2_labels, utils.zoom2_masks)
 
     # validate whether labels match
-    zoom1_labels = np.load(f"{zoom1_labels}/zoom1labels.npy")
-    zoom2_labels = np.load(f"{zoom2_labels}/zoom2labels.npy")
+    zoom1_labels = np.load(f"{utils.zoom1_labels}/zoom1labels.npy")
+    zoom2_labels = np.load(f"{utils.zoom2_labels}/zoom2labels.npy")
     print(sum(zoom1_labels == zoom2_labels) == len(zoom2_labels))

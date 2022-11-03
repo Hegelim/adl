@@ -7,6 +7,26 @@ from skimage.color import rgb2gray
 INPUT_SIZE = 299
 STRIDE = 128
 
+# define input paths
+train_input_im = "tumor_091.tif"
+train_input_mask = "tumor_091_mask.tif"
+
+# define zoom levels
+# assume level1 < level2
+# which means image at level 1 has 
+# more details than level 2
+level1 = 4
+level2 = 5
+
+# define training output paths
+zoom1_patches = "./training/zoom1patches"
+zoom1_labels = "./training/zoom1labels"
+zoom1_masks = "./training/zoom1masks"
+
+zoom2_patches = "./training/zoom2patches"
+zoom2_labels = "./training/zoom2labels"
+zoom2_masks = "./training/zoom2masks"
+
 
 def read_slide(slide, x, y, level, width, height, as_float=False):
     """Read a region from the slide, return a numpy RGB array
