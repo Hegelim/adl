@@ -1,2 +1,7 @@
 .ipynb_checkpoints
-_pycache_
+__pycache__
+TIFs
+experiment
+training
+testing
+notebooks
