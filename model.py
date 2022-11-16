@@ -47,6 +47,6 @@ def customized_model(input_size=utils.INPUT_SIZE):
     dense2 = keras.layers.Dense(16, activation="relu")(merged)
     dropout1 = keras.layers.Dropout(0.5)(dense2)
     flatten = keras.layers.Flatten()(dropout1)
-    output = keras.layers.Dense(2, activation="softmax")(flatten)
+    output = keras.layers.Dense(1, activation="sigmoid")(flatten)
     model = keras.Model(inputs=[zoom1_input, zoom2_input], outputs=output, name="myModel")
     return model

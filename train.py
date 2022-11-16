@@ -26,9 +26,9 @@ if __name__ == "__main__":
     
     mymodel.compile(
         optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
-        loss="categorical_crossentropy",
-        metrics=[keras.metrics.Accuracy(),
-                 tfa.metrics.F1Score(num_classes=2), # https://github.com/tensorflow/addons/issues/746#issuecomment-643797601
+        loss="binary_crossentropy",
+        metrics=["accuracy",
+                 tfa.metrics.F1Score(num_classes=1, threshold=0.5), # https://github.com/tensorflow/addons/issues/746#issuecomment-643797601
                  keras.metrics.AUC(),
                  keras.metrics.Recall(),
                  keras.metrics.Precision(),]
@@ -47,6 +47,6 @@ if __name__ == "__main__":
         validation_steps=val_len // utils.train_batch_size,
     )
     
-    mymodel.save("./checkpoints/mymodel_11_16_15_10.h5")
-    with open('./history/mymodel_11_16_15_10_train_history', 'wb') as f:
+    mymodel.save("./checkpoints/mymodel_11_16_16_06.h5")
+    with open('./history/mymodel_11_16_16_06_train_history', 'wb') as f:
         pickle.dump(history.history, f)

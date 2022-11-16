@@ -5,6 +5,7 @@ Date: 11/3/2022
 """
 import utils
 from keras.preprocessing.image import ImageDataGenerator
+import tensorflow as tf
 
 
 def get_generator(train_zoom1, train_zoom2):
@@ -17,7 +18,8 @@ def get_generator(train_zoom1, train_zoom2):
     while True:
         zoom1_patch, zoom1_label = next(train_zoom1)
         zoom2_patch, zoom2_label = next(train_zoom2)
-        yield (zoom1_patch, zoom2_patch), zoom1_label
+        # need to reshape https://stackoverflow.com/questions/59410176/keras-why-binary-classification-isnt-as-accurate-as-categorical-calssification
+        yield (zoom1_patch, zoom2_patch), tf.reshape(zoom1_label, (-1, 1))
 
 
 def create_train_val_dataset():
@@ -33,7 +35,7 @@ def create_train_val_dataset():
         directory=utils.zoom1_patches,
         target_size=(utils.INPUT_SIZE, utils.INPUT_SIZE),
         color_mode="rgb",
-        class_mode="categorical",
+        class_mode="binary",
         shuffle=True,
         seed=utils.seed,
         subset="training",
@@ -44,7 +46,7 @@ def create_train_val_dataset():
         directory=utils.zoom1_patches,
         target_size=(utils.INPUT_SIZE, utils.INPUT_SIZE),
         color_mode="rgb",
-        class_mode="categorical",
+        class_mode="binary",
         shuffle=True,
         seed=utils.seed,
         subset="validation",
@@ -55,7 +57,7 @@ def create_train_val_dataset():
         directory=utils.zoom2_patches,
         target_size=(utils.INPUT_SIZE, utils.INPUT_SIZE),
         color_mode="rgb",
-        class_mode="categorical",
+        class_mode="binary",
         shuffle=True,
         seed=utils.seed,
         subset="training",
@@ -66,7 +68,7 @@ def create_train_val_dataset():
         directory=utils.zoom2_patches,
         target_size=(utils.INPUT_SIZE, utils.INPUT_SIZE),
         color_mode="rgb",
-        class_mode="categorical",
+        class_mode="binary",
         shuffle=True,
         seed=utils.seed,
         subset="validation",

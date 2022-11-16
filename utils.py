@@ -39,7 +39,7 @@ zoom2_normal_masks = f"{training_dir}/zoom2/masks/normal"
 # seed for ImageDataGenerator
 seed = 100
 
-train_batch_size = 4
+train_batch_size = 32
 
 intensity = 0.8
 
