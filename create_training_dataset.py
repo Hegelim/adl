@@ -34,7 +34,7 @@ def create_train_val_dataset():
         target_size=(utils.INPUT_SIZE, utils.INPUT_SIZE),
         color_mode="rgb",
         class_mode="binary",
-        shuffle=False,
+        shuffle=True,
         seed=utils.seed,
         subset="training",
     )
@@ -45,7 +45,7 @@ def create_train_val_dataset():
         target_size=(utils.INPUT_SIZE, utils.INPUT_SIZE),
         color_mode="rgb",
         class_mode="binary",
-        shuffle=False,
+        shuffle=True,
         seed=utils.seed,
         subset="validation",
     )
@@ -56,7 +56,7 @@ def create_train_val_dataset():
         target_size=(utils.INPUT_SIZE, utils.INPUT_SIZE),
         color_mode="rgb",
         class_mode="binary",
-        shuffle=False,
+        shuffle=True,
         seed=utils.seed,
         subset="training",
     )
@@ -67,7 +67,7 @@ def create_train_val_dataset():
         target_size=(utils.INPUT_SIZE, utils.INPUT_SIZE),
         color_mode="rgb",
         class_mode="binary",
-        shuffle=False,
+        shuffle=True,
         seed=utils.seed,
         subset="validation",
     )
