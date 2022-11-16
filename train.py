@@ -27,7 +27,7 @@ if __name__ == "__main__":
     mymodel.compile(
         optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
         loss="categorical_crossentropy",
-        metrics=["accuracy",
+        metrics=[keras.metrics.Accuracy(),
                  tfa.metrics.F1Score(num_classes=2), # https://github.com/tensorflow/addons/issues/746#issuecomment-643797601
                  keras.metrics.AUC(),
                  keras.metrics.Recall(),

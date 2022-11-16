@@ -5,21 +5,21 @@ from skimage.color import rgb2gray
 
 
 INPUT_SIZE = 299
-TRAIN_STRIDE = 128
+TRAIN_STRIDE = 30
 TEST_STRIDE = 128
 
-TRAIN_SAMPLE_SIZE = 500
+TRAIN_SAMPLE_SIZE = 1000
 
 # define input paths
-train_input_im = "tumor_091.tif"
-train_input_mask = "tumor_091_mask.tif"
+train_input = "./TIFs/trainingTIFs"
+train_input_mask = "./TIFs/testingTIFs"
 
 # define zoom levels
 # assume level1 < level2
 # which means image at level 1 has 
 # more details than level 2
-level1 = 4
-level2 = 5
+level1 = 3
+level2 = 4
 
 training_dir = "./training"
 zoom1_patches = "./training/zoom1/patches"
@@ -39,7 +39,9 @@ zoom2_normal_masks = f"{training_dir}/zoom2/masks/normal"
 # seed for ImageDataGenerator
 seed = 100
 
-train_batch_size = 16
+train_batch_size = 4
+
+intensity = 0.8
 
 def read_slide(slide, x, y, level, width, height, as_float=False):
     """Read a region from the slide, return a numpy RGB array
@@ -48,7 +50,7 @@ def read_slide(slide, x, y, level, width, height, as_float=False):
     Note: x,y coords are with respect to level 0.
     There is an example below of working with coordinates
     with respect to a higher zoom level.
-
+    here x,y is w.r.t. images
     """
     im = slide.read_region((x,y), level, (width, height))
     im = im.convert('RGB') # drop the alpha channel
@@ -84,22 +86,20 @@ def apply_mask(im, mask, color=(255,0,0)):
     return masked
 
 
-def cal_tissue_perc(image, intensity=0.8) -> float:
+def cal_tissue_perc(image) -> float:
     tissue_pixels = find_tissue_pixels(image)
-    return len(tissue_pixels) / float(image.shape[0] * image.shape[0]) * 100
+    return len(tissue_pixels) / (image.shape[0] * image.shape[1])
 
 
-def extract_label(im, mask) -> int:
+def has_tumor_at_center(mask) -> bool:
     """Extract label (0/1) from the center 128 x 128 of the im
     
     Args:
-        im: 3D array, (299, 299, 3)
-        mask: 3D array, (299, 299, 3)
+        mask: 2d array, (299, 299)
     """
-    start_i = im.shape[0] // 2 - TEST_STRIDE // 2
+    start_i = mask.shape[0] // 2 - TEST_STRIDE // 2
     end_i = start_i + TEST_STRIDE
-    start_j = im.shape[1] // 2 - TEST_STRIDE // 2
+    start_j = mask.shape[1] // 2 - TEST_STRIDE // 2
     end_j = start_j + TEST_STRIDE
-    mask = mask[:, :, 0]
     mask_slice = mask[start_i:end_i, start_j:end_j]
-    return int(np.sum(mask_slice) >= 1)
+    return np.count_nonzero(mask_slice) >= 1
