@@ -50,11 +50,11 @@ Found 2911 images belonging to 2 classes.
 ### Training Benchmark
 
 Using model `checkpoints/vggsmall_11_17_categorical_30.h5`
-![image](plots/Training vs Validation Accuracy_vggsmall_11_17_categorical_30.png)
+![image](plots/Accuracy_vggsmall_11_17_categorical_30.png)
 
-![image](plots/Training vs Validation Auc_vggsmall_11_17_categorical_30.png)
+![image](plots/Auc_vggsmall_11_17_categorical_30.png)
 
-![image](plots/Training vs Validation Recall_vggsmall_11_17_categorical_30.png)
+![image](plots/Recall_vggsmall_11_17_categorical_30.png)
 
 ### Testing
 
