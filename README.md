@@ -32,6 +32,12 @@ conda create --name <env> --file requirements.txt
 * transfer learning in InceptionV3
 * customized CNN model
 
+The checkpoints are so large that it is unfeasible to store in github. Instead, they can be downloaded with the links
+
+* [InceptionV3_small_30](https://drive.google.com/file/d/1zFgo7c1HrH9spK88pqwYjwRs4PGi7-SX/view?usp=share_link)
+
+
+
 ### Input
 
 * Size: (299, 299, 3)
@@ -49,17 +55,17 @@ Found 2911 images belonging to 2 classes.
 
 ### Training Benchmark
 
-Using model `checkpoints/vggsmall_11_17_categorical_30.h5`
-![image](plots/Accuracy_vggsmall_11_17_categorical_30.png)
+Using model `checkpoints/inceptionv3_small_11_17_categorical_30.h5`
+![image](plots/Accuracy_inceptionv3_small_11_17_categorical_30.png)
 
-![image](plots/Auc_vggsmall_11_17_categorical_30.png)
+![image](plots/Auc_inceptionv3_small_11_17_categorical_30.png)
 
-![image](plots/Recall_vggsmall_11_17_categorical_30.png)
+![image](plots/Recall_inceptionv3_small_11_17_categorical_30.png)
 
 ### Testing
 
-I used tumor_078 because it has a relatively large region of tumor. Using model `checkpoints/vggsmall_11_17_categorical_30.h5`
-![image](plots/vggsmall_11_17_categorical_30_step1_tumor_078_level7.png)
+I used tumor_078 because it has a relatively large region of tumor. Using model `inceptionv3_small_11_17_categorical_30.h5`
+![image](plots/inceptionv3_small_11_17_categorical_30_step1_tumor_078_level7.png)
 
 
 ## Structure
