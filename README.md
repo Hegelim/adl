@@ -67,8 +67,17 @@ Using model `checkpoints/inceptionv3_small_11_17_categorical_30.h5`
 I used tumor_078 because it has a relatively large region of tumor. Using model `inceptionv3_small_11_17_categorical_30.h5`
 ![image](plots/inceptionv3_small_11_17_categorical_30_step1_tumor_078_level7.png)
 
+## Workflow
 
-## Structure
+![image](workflow.png)
+
+## Model Structure
+
+The model uses transfer learning on [InceptionV3](https://keras.io/api/applications/inceptionv3/). The structure is
+
+![image](inceptionv3small_structure.png)
+
+## Repo Structure
 
 The structure of the repo looks like follows
 ```

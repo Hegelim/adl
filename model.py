@@ -52,7 +52,7 @@ def customized_model(input_size=utils.INPUT_SIZE):
     return model
 
 
-def vggsmall(input_size=utils.INPUT_SIZE):
+def inceptionv3small(input_size=utils.INPUT_SIZE):
     zoom1_model = tf.keras.applications.InceptionV3(input_shape=(input_size, input_size, 3), 
                                                     include_top=False, 
                                                     weights='imagenet')

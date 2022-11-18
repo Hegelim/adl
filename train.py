@@ -21,7 +21,7 @@ if __name__ == "__main__":
         print(label.shape)
         break
 
-    mymodel = model.vggsmall(utils.INPUT_SIZE)
+    mymodel = model.inceptionv3small(utils.INPUT_SIZE)
     print(mymodel.summary())
     
     mymodel.compile(
