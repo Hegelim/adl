@@ -19,7 +19,7 @@ def get_generator(train_zoom1, train_zoom2):
         zoom1_patch, zoom1_label = next(train_zoom1)
         zoom2_patch, zoom2_label = next(train_zoom2)
         # need to reshape https://stackoverflow.com/questions/59410176/keras-why-binary-classification-isnt-as-accurate-as-categorical-calssification
-        yield (zoom1_patch, zoom2_patch), tf.reshape(zoom1_label, (-1, 1))
+        yield (zoom1_patch, zoom2_patch), zoom1_label
 
 
 def create_train_val_dataset():
@@ -35,7 +35,7 @@ def create_train_val_dataset():
         directory=utils.zoom1_patches,
         target_size=(utils.INPUT_SIZE, utils.INPUT_SIZE),
         color_mode="rgb",
-        class_mode="binary",
+        class_mode="categorical",
         shuffle=True,
         seed=utils.seed,
         subset="training",
@@ -46,7 +46,7 @@ def create_train_val_dataset():
         directory=utils.zoom1_patches,
         target_size=(utils.INPUT_SIZE, utils.INPUT_SIZE),
         color_mode="rgb",
-        class_mode="binary",
+        class_mode="categorical",
         shuffle=True,
         seed=utils.seed,
         subset="validation",
@@ -57,7 +57,7 @@ def create_train_val_dataset():
         directory=utils.zoom2_patches,
         target_size=(utils.INPUT_SIZE, utils.INPUT_SIZE),
         color_mode="rgb",
-        class_mode="binary",
+        class_mode="categorical",
         shuffle=True,
         seed=utils.seed,
         subset="training",
@@ -68,13 +68,15 @@ def create_train_val_dataset():
         directory=utils.zoom2_patches,
         target_size=(utils.INPUT_SIZE, utils.INPUT_SIZE),
         color_mode="rgb",
-        class_mode="binary",
+        class_mode="categorical",
         shuffle=True,
         seed=utils.seed,
         subset="validation",
     )
     
+    print(train_zoom1.class_indices)
+    
     training_generator = get_generator(train_zoom1, train_zoom2)
     val_generator = get_generator(val_zoom1, val_zoom2)
-    
+        
     return training_generator, val_generator, len(train_zoom1), len(val_zoom1)
