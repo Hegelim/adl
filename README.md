@@ -172,3 +172,11 @@ Initiate jupyter lab session by
 Then open and run `./notebooks/make_prediction.ipynb`
 the plots are saved in `./plots/`
 
+### Plot History
+
+Initiate jupyter lab session by
+```
+❯ jupyter lab
+```
+
+Then open and run `./notebooks/plot_history.ipynb`
