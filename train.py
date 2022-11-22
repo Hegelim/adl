@@ -47,6 +47,6 @@ if __name__ == "__main__":
         validation_steps=val_len // utils.train_batch_size,
     )
     
-    mymodel.save("./checkpoints/vggsmall_11_17_categorical_30.h5")
-    with open('./history/vggsmall_11_17_categorical_30.pkl', 'wb') as f:
+    mymodel.save("./checkpoints/inceptionv3_11_22_categorical_30.h5")
+    with open('./history/inceptionv3_11_22_categorical_30.pkl', 'wb') as f:
         pickle.dump(history.history, f)
