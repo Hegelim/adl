@@ -204,4 +204,4 @@ the plots are saved in `./plots/`
 
 ### 6. Plot History
 
-Initiate jupyter lab session, then open and run `./notebooks/plot_history.ipynb`
+Initiate jupyter lab session, then open and run `./plot_history.ipynb`
