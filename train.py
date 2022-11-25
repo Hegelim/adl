@@ -25,7 +25,7 @@ if __name__ == "__main__":
     print(mymodel.summary())
     
     mymodel.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
+        optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5),
         loss="categorical_crossentropy",
         metrics=["accuracy",
                  tfa.metrics.F1Score(num_classes=2, threshold=0.5), # https://github.com/tensorflow/addons/issues/746#issuecomment-643797601
@@ -40,13 +40,13 @@ if __name__ == "__main__":
     # 3. need to specify validation_steps
     history = mymodel.fit(
         training_gen, 
-        epochs=30,
+        epochs=50,
         verbose=1,
         validation_data=val_gen,
         steps_per_epoch=train_len // utils.train_batch_size,
         validation_steps=val_len // utils.train_batch_size,
     )
     
-    mymodel.save("./checkpoints/inceptionv3_11_22_categorical_30.h5")
-    with open('./history/inceptionv3_11_22_categorical_30.pkl', 'wb') as f:
+    mymodel.save("./checkpoints/inceptionv3_small_11_22_categorical_50.h5")
+    with open('./history/inceptionv3_small_11_22_categorical_50.pkl', 'wb') as f:
         pickle.dump(history.history, f)
