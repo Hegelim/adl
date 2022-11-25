@@ -21,18 +21,18 @@ train_input_mask = "./TIFs/testingTIFs"
 level1 = 3
 level2 = 4
 
-training_dir = "./training"
-zoom1_patches = "./training/zoom1/patches"
-zoom2_patches = "./training/zoom2/patches"
+training_dir = "./expTraining"
+zoom1_patches = "./expTraining/zoom1/slides"
+zoom2_patches = "./expTraining/zoom2/slides"
 
 # define training output paths
-zoom1_tumor_patches = f"{training_dir}/zoom1/patches/tumor"
-zoom1_normal_patches = f"{training_dir}/zoom1/patches/normal"
+zoom1_tumor_patches = f"{training_dir}/zoom1/slides/tumor"
+zoom1_normal_patches = f"{training_dir}/zoom1/slides/normal"
 zoom1_tumor_masks = f"{training_dir}/zoom1/masks/tumor"
 zoom1_normal_masks = f"{training_dir}/zoom1/masks/normal"
 
-zoom2_tumor_patches = f"{training_dir}/zoom2/patches/tumor"
-zoom2_normal_patches = f"{training_dir}/zoom2/patches/normal"
+zoom2_tumor_patches = f"{training_dir}/zoom2/slides/tumor"
+zoom2_normal_patches = f"{training_dir}/zoom2/slides/normal"
 zoom2_tumor_masks = f"{training_dir}/zoom2/masks/tumor"
 zoom2_normal_masks = f"{training_dir}/zoom2/masks/normal"
 
