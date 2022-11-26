@@ -4,7 +4,7 @@ This project aims to create a deep learning end-to-end pipeline that helps to id
 
 * Research Paper: https://arxiv.org/abs/1703.02442
 * Data: https://camelyon16.grand-challenge.org/Data/
-* Youtube: 
+* Youtube: https://www.youtube.com/watch?v=azWn_pX8Yrc
 
 ## How to Reproduce (High-level)
 
